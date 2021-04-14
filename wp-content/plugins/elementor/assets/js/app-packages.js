@@ -1,4 +1,4 @@
-/*! elementor - v3.1.4 - 10-03-2021 */
+/*! elementor - v3.1.0 - 24-01-2021 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -6651,13 +6651,11 @@ exports.default = ErrorBoundary;
   \****************************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: __webpack_exports__, __webpack_require__ */
-/*! CommonJS bailout: exports is used directly at 9:23-30 */
+/*! CommonJS bailout: exports is used directly at 7:23-30 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
-
-var _interopRequireWildcard = __webpack_require__(/*! @babel/runtime-corejs2/helpers/interopRequireWildcard */ "../node_modules/@babel/runtime-corejs2/helpers/interopRequireWildcard.js");
 
 var _interopRequireDefault = __webpack_require__(/*! @babel/runtime-corejs2/helpers/interopRequireDefault */ "../node_modules/@babel/runtime-corejs2/helpers/interopRequireDefault.js");
 
@@ -6711,7 +6709,7 @@ var _menu = _interopRequireDefault(__webpack_require__(/*! ./ui/menu/menu */ "..
 
 var _menuItem = _interopRequireDefault(__webpack_require__(/*! ./ui/menu/menu-item */ "../core/app/assets/js/ui/menu/menu-item.js"));
 
-var _modal = _interopRequireWildcard(__webpack_require__(/*! ./ui/modal/modal */ "../core/app/assets/js/ui/modal/modal.js"));
+var _modal = _interopRequireDefault(__webpack_require__(/*! ./ui/modal/modal */ "../core/app/assets/js/ui/modal/modal.js"));
 
 var _notFound = _interopRequireDefault(__webpack_require__(/*! ./pages/not-found */ "../core/app/assets/js/pages/not-found.js"));
 
@@ -6752,7 +6750,6 @@ var _default = {
   List: _list.default,
   Menu: _menu.default,
   MenuItem: _menuItem.default,
-  Modal: _modal.Modal,
   ModalProvider: _modal.default,
   NotFound: _notFound.default,
   Notice: _notice.default,

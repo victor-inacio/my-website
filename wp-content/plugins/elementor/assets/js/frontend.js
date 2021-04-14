@@ -1,4 +1,4 @@
-/*! elementor - v3.1.4 - 10-03-2021 */
+/*! elementor - v3.1.0 - 24-01-2021 */
 (self["webpackChunkelementor"] = self["webpackChunkelementor"] || []).push([["frontend"],{
 
 /***/ "../node_modules/@babel/runtime-corejs2/core-js/array/from.js":
@@ -2713,7 +2713,8 @@ var BackgroundVideo = /*#__PURE__*/function (_elementorModules$fro) {
         startStateCode = YT.PlayerState.UNSTARTED;
       }
 
-      var playerOptions = {
+      $backgroundVideoContainer.addClass('elementor-loading elementor-invisible');
+      this.player = new YT.Player(this.elements.$backgroundVideoEmbed[0], {
         videoId: videoID,
         events: {
           onReady: function onReady() {
@@ -2746,15 +2747,7 @@ var BackgroundVideo = /*#__PURE__*/function (_elementorModules$fro) {
           rel: 0,
           playsinline: 1
         }
-      }; // To handle CORS issues, when the default host is changed, the origin parameter has to be set.
-
-      if (elementSettings.background_privacy_mode) {
-        playerOptions.host = 'https://www.youtube-nocookie.com';
-        playerOptions.origin = window.location.hostname;
-      }
-
-      $backgroundVideoContainer.addClass('elementor-loading elementor-invisible');
-      this.player = new YT.Player(this.elements.$backgroundVideoEmbed[0], playerOptions);
+      });
     }
   }, {
     key: "activate",
@@ -2909,7 +2902,7 @@ var HandlesPosition = /*#__PURE__*/function (_elementorModules$fro) {
   }, {
     key: "isFirstSection",
     value: function isFirstSection() {
-      return this.$element[0] === document.querySelector('.elementor-edit-mode .elementor-top-section');
+      return this.$element.is('.elementor-edit-mode .elementor-top-section:first');
     }
   }, {
     key: "isOverflowHidden",
@@ -3007,8 +3000,7 @@ var _stretchedSection = _interopRequireDefault(__webpack_require__(/*! ./stretch
 
 var _shapes = _interopRequireDefault(__webpack_require__(/*! ./shapes */ "../assets/dev/js/frontend/handlers/section/shapes.js"));
 
-var _default = [_stretchedSection.default, // Must run before BackgroundSlideshow to init the slideshow only after the stretch.
-_backgroundSlideshow.default, _backgroundVideo.default, _handlesPosition.default, _shapes.default];
+var _default = [_backgroundSlideshow.default, _backgroundVideo.default, _handlesPosition.default, _stretchedSection.default, _shapes.default];
 exports.default = _default;
 
 /***/ }),
@@ -3512,7 +3504,7 @@ module.exports = elementorModules.ViewModule.extend({
         attributes: {
           tabindex: 0,
           role: 'button',
-          'aria-label': elementorFrontend.config.i18n.close + ' (Esc)'
+          'aria-label': wp.i18n.__('Close', 'elementor') + ' (Esc)'
         }
       },
       selectors: {
@@ -3576,15 +3568,14 @@ module.exports = elementorModules.ViewModule.extend({
       case 'slideshow':
         self.setSlideshowContent(options.slideshow);
         break;
+
+      default:
+        self.setHTMLContent(options.html);
     }
 
     modal.show();
   },
   setHTMLContent: function setHTMLContent(html) {
-    if (window.elementorCommon) {
-      elementorCommon.helpers.hardDeprecated('elementorFrontend.utils.lightbox.setHTMLContent', '3.1.4');
-    }
-
     this.getModal().setMessage(html);
   },
   setVideoContent: function setVideoContent(options) {
@@ -3631,9 +3622,9 @@ module.exports = elementorModules.ViewModule.extend({
 
     var i18n = elementorFrontend.config.i18n,
         socialNetworks = {
-      facebook: i18n.shareOnFacebook,
-      twitter: i18n.shareOnTwitter,
-      pinterest: i18n.pinIt
+      facebook: wp.i18n.__('Share on Facebook', 'elementor'),
+      twitter: wp.i18n.__('Share on Twitter', 'elementor'),
+      pinterest: wp.i18n.__('Share on Twitter', 'elementor')
     },
         $ = jQuery,
         classes = this.getSettings('classes'),
@@ -3667,9 +3658,9 @@ module.exports = elementorModules.ViewModule.extend({
       $linkList.append($('<a>', {
         href: itemUrl,
         download: ''
-      }).text(i18n.downloadImage).prepend($('<i>', {
+      }).text(wp.i18n.__('Download image', 'elementor')).prepend($('<i>', {
         class: 'eicon-download-bold',
-        'aria-label': i18n.download
+        'aria-label': wp.i18n.__('Download', 'elementor')
       })));
     }
 
@@ -3713,7 +3704,7 @@ module.exports = elementorModules.ViewModule.extend({
       elements.$iconShare = $('<i>', {
         class: slideshowClasses.iconShare,
         role: 'button',
-        'aria-label': i18n.share,
+        'aria-label': wp.i18n.__('Share', 'elementor'),
         'aria-expanded': false
       }).append($('<span>'));
       var $shareLinks = $('<div>');
@@ -3733,7 +3724,7 @@ module.exports = elementorModules.ViewModule.extend({
         class: slideshowClasses.iconZoomIn,
         role: 'switch',
         'aria-checked': false,
-        'aria-label': i18n.zoom
+        'aria-label': wp.i18n.__('Zoom', 'elementor')
       });
       elements.$iconZoom.on('click', this.toggleZoomMode);
       elements.$header.append(elements.$iconZoom);
@@ -3745,7 +3736,7 @@ module.exports = elementorModules.ViewModule.extend({
         class: slideshowClasses.iconExpand,
         role: 'switch',
         'aria-checked': false,
-        'aria-label': i18n.fullscreen
+        'aria-label': wp.i18n.__('Fullscreen', 'elementor')
       }).append($('<span>'), $('<span>'));
       elements.$iconExpand.on('click', this.toggleFullscreen);
       elements.$header.append(elements.$iconExpand);
@@ -3890,7 +3881,7 @@ module.exports = elementorModules.ViewModule.extend({
           class: classes.playButton
         }).html($('<i>', {
           class: classes.playButtonIcon,
-          'aria-label': i18n.playVideo
+          'aria-label': wp.i18n.__('Play Video', 'elementor')
         }));
         $slide.append($playIcon);
       } else {
@@ -3927,13 +3918,13 @@ module.exports = elementorModules.ViewModule.extend({
     if (!isSingleSlide) {
       $prevButton = $('<div>', {
         class: slideshowClasses.prevButton + ' ' + classes.preventClose,
-        'aria-label': i18n.previous
+        'aria-label': wp.i18n.__('Previous', 'elementor')
       }).html($('<i>', {
         class: slideshowClasses.prevButtonIcon
       }));
       $nextButton = $('<div>', {
         class: slideshowClasses.nextButton + ' ' + classes.preventClose,
-        'aria-label': i18n.next
+        'aria-label': wp.i18n.__('Next', 'elementor')
       }).html($('<i>', {
         class: slideshowClasses.nextButtonIcon
       }));
@@ -4069,11 +4060,11 @@ module.exports = elementorModules.ViewModule.extend({
       if (event.shiftKey) {
         if (isFirst) {
           event.preventDefault();
-          $buttons.last().trigger('focus');
+          $buttons.last().focus();
         }
       } else if (isLast || !focusedButton) {
         event.preventDefault();
-        $buttons.first().trigger('focus');
+        $buttons.first().focus();
       }
     }
   },
@@ -4213,8 +4204,7 @@ module.exports = elementorModules.ViewModule.extend({
     }
   },
   isLightboxLink: function isLightboxLink(element) {
-    // Check for lowercase `a` to make sure it works also for links inside SVGs.
-    if ('a' === element.tagName.toLowerCase() && (element.hasAttribute('download') || !/^[^?]+\.(png|jpe?g|gif|svg|webp)(\?.*)?$/i.test(element.href))) {
+    if ('A' === element.tagName && (element.hasAttribute('download') || !/^[^?]+\.(png|jpe?g|gif|svg|webp)(\?.*)?$/i.test(element.href))) {
       return false;
     }
 

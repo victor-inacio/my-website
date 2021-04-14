@@ -1,4 +1,4 @@
-/*! elementor - v3.1.4 - 10-03-2021 */
+/*! elementor - v3.1.0 - 24-01-2021 */
 .elementor-button {
   font-family: Roboto, Arial, Helvetica, Verdana, sans-serif;
   font-weight: 500;
@@ -350,8 +350,10 @@ body.post-type-attachment table.media .column-title .media-icon img[src$=".svg"]
   display: -ms-flexbox;
   display: flex; }
   .e-major-update-warning__separator {
-    margin: 15px -12px; }
+    margin: 15px -12px;
+    border: 1px solid #ffb900; }
   .e-major-update-warning__icon {
+    color: #f56e28;
     font-size: 17px;
     margin-left: 9px;
     margin-right: 2px; }
@@ -360,18 +362,6 @@ body.post-type-attachment table.media .column-title .media-icon img[src$=".svg"]
     margin-bottom: 10px; }
   .e-major-update-warning + p {
     display: none; }
-
-.notice-success .e-major-update-warning__separator {
-  border: 1px solid #46b450; }
-
-.notice-success .e-major-update-warning__icon {
-  color: #79ba49; }
-
-.notice-warning .e-major-update-warning__separator {
-  border: 1px solid #ffb900; }
-
-.notice-warning .e-major-update-warning__icon {
-  color: #f56e28; }
 
 .plugins table.e-compatibility-update-table tr {
   background: transparent; }
@@ -1122,9 +1112,9 @@ body.post-type-attachment table.media .column-title .media-icon img[src$=".svg"]
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: flex-start; }
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center; }
   .e-experiment__title__indicator {
     height: 10px;
     width: 10px;
@@ -1132,8 +1122,7 @@ body.post-type-attachment table.media .column-title .media-icon img[src$=".svg"]
             border-radius: 50%;
     border: 2px solid white;
     -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-top: 2px; }
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
     .e-experiment__title__indicator--active {
       background: #39b54a; }
   .e-experiment__title__label {
