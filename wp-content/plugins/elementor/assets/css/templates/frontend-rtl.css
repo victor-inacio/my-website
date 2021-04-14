@@ -1838,15 +1838,13 @@ body.elementor-page .elementor-widget-menu-anchor {
     justify-content: var(--justify-content, center);
     justify-items: var(--justify-content, center); }
 
-.elementor-icon.elementor-social-icon {
-  font-size: var(--icon-size, 25px);
-  line-height: var(--icon-size, 25px);
-  width: calc(var(--icon-size, 25px) + (2 * var(--icon-padding, 0.5em)));
-  height: calc(var(--icon-size, 25px) + (2 * var(--icon-padding, 0.5em))); }
-
 .elementor-social-icon {
   display: inline-flex;
   background-color: #818a91;
+  font-size: var(--icon-size, 25px);
+  line-height: var(--icon-size, 25px);
+  width: calc(var(--icon-size, 25px) + (2 * var(--icon-padding, 0.5em)));
+  height: calc(var(--icon-size, 25px) + (2 * var(--icon-padding, 0.5em)));
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -2902,16 +2900,13 @@ button.swiper-pagination-bullet {
   font-size: 25px;
   color: rgba(238, 238, 238, 0.9);
   top: 50%;
-  transform: translateY(-50%); }
+  transform: translate3d(0, -50%, 1px); }
   .elementor-swiper-button-prev {
     left: 10px; }
   .elementor-swiper-button-next {
     right: 10px; }
   .elementor-swiper-button.swiper-button-disabled {
     opacity: 0.3; }
-
-.swiper-container-cube .elementor-swiper-button {
-  transform: translate3d(0, -50%, 1px); }
 
 /* Preloader */
 .swiper-lazy-preloader {

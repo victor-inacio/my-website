@@ -1,4 +1,4 @@
-/*! elementor - v3.1.4 - 10-03-2021 */
+/*! elementor - v3.1.0 - 24-01-2021 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -10542,15 +10542,10 @@ var CommandData = /*#__PURE__*/function (_CommandBase) {
       var _e, _e$data;
 
       // TODO: If the errors that returns from the server is consistent remove the '?' from 'e'
-      var status = ((_e = e) === null || _e === void 0 ? void 0 : (_e$data = _e.data) === null || _e$data === void 0 ? void 0 : _e$data.status) || 0;
-      var dataError = (0, _values.default)(errors).find(function (error) {
+      var status = ((_e = e) === null || _e === void 0 ? void 0 : (_e$data = _e.data) === null || _e$data === void 0 ? void 0 : _e$data.status) || 0,
+          dataError = (0, _values.default)(errors).find(function (error) {
         return error.getStatus() === status;
       });
-
-      if (!dataError) {
-        dataError = errors.DefaultError;
-      }
-
       e = dataError.create(e.message, e.code, e.data || []);
       this.runCatchHooks(e);
       e.notify();
@@ -12543,7 +12538,7 @@ var _catch = __webpack_require__(/*! ./catch */ "../core/common/assets/js/api/mo
   \***********************************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: module, __webpack_require__ */
-/*! CommonJS bailout: module.exports is used directly at 133:0-14 */
+/*! CommonJS bailout: module.exports is used directly at 132:0-14 */
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
@@ -12572,9 +12567,8 @@ var Debug = function Debug() {
   };
 
   var onError = function onError(event) {
-    var _event$originalEvent;
-
-    var error = (_event$originalEvent = event.originalEvent) === null || _event$originalEvent === void 0 ? void 0 : _event$originalEvent.error;
+    var originalEvent = event.originalEvent,
+        error = originalEvent.error;
 
     if (!error) {
       return;
@@ -13958,11 +13952,10 @@ var _default = /*#__PURE__*/function (_Marionette$Composite) {
   }, {
     key: "ui",
     value: function ui() {
-      this.selectors = {
+      return {
         noResults: '#elementor-finder__no-results',
         categoryItem: '.elementor-finder__results__item'
       };
-      return this.selectors;
     }
   }, {
     key: "events",
@@ -14001,7 +13994,7 @@ var _default = /*#__PURE__*/function (_Marionette$Composite) {
   }, {
     key: "activateNextItem",
     value: function activateNextItem(reverse) {
-      var $allItems = jQuery(this.selectors.categoryItem);
+      var $allItems = jQuery(this.ui.categoryItem.selector);
       var nextItemIndex = 0;
 
       if (this.$activeItem) {

@@ -1,4 +1,4 @@
-/*! elementor - v3.1.4 - 10-03-2021 */
+/*! elementor - v3.1.0 - 24-01-2021 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -12393,7 +12393,7 @@ var Helper = /*#__PURE__*/function () {
            * TODO: Try improve performance of using 'document/elements/create` instead of manual create.
            */
 
-          container.view.addChildModel(model);
+          container.view.addChildModel(model, options);
           /**
            * Manual history & not using of `$e.run('document/elements/create')`
            * For performance reasons.
@@ -18354,7 +18354,7 @@ module.exports = Marionette.Behavior.extend({
   \********************************************************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: module */
-/*! CommonJS bailout: module.exports is used directly at 184:0-14 */
+/*! CommonJS bailout: module.exports is used directly at 174:0-14 */
 /***/ ((module) => {
 
 "use strict";
@@ -18403,6 +18403,7 @@ SortableBehavior = Marionette.Behavior.extend({
 
     var $childViewContainer = this.getChildViewContainer(),
         defaultSortableOptions = {
+      connectWith: $childViewContainer.selector,
       placeholder: 'elementor-sortable-placeholder elementor-' + this.getOption('elChildType') + '-placeholder',
       cursorAt: {
         top: 20,
@@ -18424,9 +18425,6 @@ SortableBehavior = Marionette.Behavior.extend({
   getChildViewContainer: function getChildViewContainer() {
     return this.view.getChildViewContainer(this.view);
   },
-  // This method is used to fix widgets index detection when dragging or sorting using the preview interface,
-  // The natural widget index in the column is wrong, since there is a `.elementor-background-overlay` element
-  // at the beginning of the column
   getSortedElementNewIndex: function getSortedElementNewIndex($element) {
     var draggedModel = elementor.channels.data.request('dragging:model'),
         draggedElType = draggedModel.get('elType');
@@ -18451,21 +18449,17 @@ SortableBehavior = Marionette.Behavior.extend({
     elementor.channels.data.reply('dragging:model', container.model).reply('dragging:view', container.view).reply('dragging:parent:view', this.view).trigger('drag:start', container.model).trigger(container.model.get('elType') + ':drag:start');
   },
   // On sorting element
-  updateSort: function updateSort(ui, newIndex) {
-    if (undefined === newIndex) {
-      newIndex = ui.item.index();
-    }
-
+  updateSort: function updateSort(ui) {
     $e.run('document/elements/move', {
       container: elementor.channels.data.request('dragging:view').getContainer(),
       target: this.view.getContainer(),
       options: {
-        at: newIndex
+        at: this.getSortedElementNewIndex(ui.item)
       }
     });
   },
   // On receiving element from another container
-  receiveSort: function receiveSort(event, ui, newIndex) {
+  receiveSort: function receiveSort(event, ui) {
     event.stopPropagation();
 
     if (this.view.isCollectionFilled()) {
@@ -18483,15 +18477,11 @@ SortableBehavior = Marionette.Behavior.extend({
       return;
     }
 
-    if (undefined === newIndex) {
-      newIndex = ui.item.index();
-    }
-
     $e.run('document/elements/move', {
       container: elementor.channels.data.request('dragging:view').getContainer(),
       target: this.view.getContainer(),
       options: {
-        at: newIndex
+        at: this.getSortedElementNewIndex(ui.item)
       }
     });
   },
@@ -18526,7 +18516,7 @@ SortableBehavior = Marionette.Behavior.extend({
     this.$el.removeClass('elementor-dragging-on-child');
   },
   onSortReceive: function onSortReceive(event, ui) {
-    this.receiveSort(event, ui, this.getSortedElementNewIndex(ui.item));
+    this.receiveSort(event, ui);
   },
   onSortUpdate: function onSortUpdate(event, ui) {
     event.stopPropagation();
@@ -18535,7 +18525,7 @@ SortableBehavior = Marionette.Behavior.extend({
       return;
     }
 
-    this.updateSort(ui, this.getSortedElementNewIndex(ui.item));
+    this.updateSort(ui);
   },
   onAddChild: function onAddChild(view) {
     view.$el.attr('data-model-cid', view.model.cid);
@@ -21393,15 +21383,10 @@ var CommandData = /*#__PURE__*/function (_CommandBase) {
       var _e, _e$data;
 
       // TODO: If the errors that returns from the server is consistent remove the '?' from 'e'
-      var status = ((_e = e) === null || _e === void 0 ? void 0 : (_e$data = _e.data) === null || _e$data === void 0 ? void 0 : _e$data.status) || 0;
-      var dataError = (0, _values.default)(errors).find(function (error) {
+      var status = ((_e = e) === null || _e === void 0 ? void 0 : (_e$data = _e.data) === null || _e$data === void 0 ? void 0 : _e$data.status) || 0,
+          dataError = (0, _values.default)(errors).find(function (error) {
         return error.getStatus() === status;
       });
-
-      if (!dataError) {
-        dataError = errors.DefaultError;
-      }
-
       e = dataError.create(e.message, e.code, e.data || []);
       this.runCatchHooks(e);
       e.notify();

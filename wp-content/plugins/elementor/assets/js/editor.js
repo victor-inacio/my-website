@@ -1,4 +1,4 @@
-/*! elementor - v3.1.4 - 10-03-2021 */
+/*! elementor - v3.1.0 - 24-01-2021 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -19331,7 +19331,7 @@ exports.default = _default;
   \********************************************************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: module */
-/*! CommonJS bailout: module.exports is used directly at 184:0-14 */
+/*! CommonJS bailout: module.exports is used directly at 174:0-14 */
 /***/ ((module) => {
 
 "use strict";
@@ -19380,6 +19380,7 @@ SortableBehavior = Marionette.Behavior.extend({
 
     var $childViewContainer = this.getChildViewContainer(),
         defaultSortableOptions = {
+      connectWith: $childViewContainer.selector,
       placeholder: 'elementor-sortable-placeholder elementor-' + this.getOption('elChildType') + '-placeholder',
       cursorAt: {
         top: 20,
@@ -19401,9 +19402,6 @@ SortableBehavior = Marionette.Behavior.extend({
   getChildViewContainer: function getChildViewContainer() {
     return this.view.getChildViewContainer(this.view);
   },
-  // This method is used to fix widgets index detection when dragging or sorting using the preview interface,
-  // The natural widget index in the column is wrong, since there is a `.elementor-background-overlay` element
-  // at the beginning of the column
   getSortedElementNewIndex: function getSortedElementNewIndex($element) {
     var draggedModel = elementor.channels.data.request('dragging:model'),
         draggedElType = draggedModel.get('elType');
@@ -19428,21 +19426,17 @@ SortableBehavior = Marionette.Behavior.extend({
     elementor.channels.data.reply('dragging:model', container.model).reply('dragging:view', container.view).reply('dragging:parent:view', this.view).trigger('drag:start', container.model).trigger(container.model.get('elType') + ':drag:start');
   },
   // On sorting element
-  updateSort: function updateSort(ui, newIndex) {
-    if (undefined === newIndex) {
-      newIndex = ui.item.index();
-    }
-
+  updateSort: function updateSort(ui) {
     $e.run('document/elements/move', {
       container: elementor.channels.data.request('dragging:view').getContainer(),
       target: this.view.getContainer(),
       options: {
-        at: newIndex
+        at: this.getSortedElementNewIndex(ui.item)
       }
     });
   },
   // On receiving element from another container
-  receiveSort: function receiveSort(event, ui, newIndex) {
+  receiveSort: function receiveSort(event, ui) {
     event.stopPropagation();
 
     if (this.view.isCollectionFilled()) {
@@ -19460,15 +19454,11 @@ SortableBehavior = Marionette.Behavior.extend({
       return;
     }
 
-    if (undefined === newIndex) {
-      newIndex = ui.item.index();
-    }
-
     $e.run('document/elements/move', {
       container: elementor.channels.data.request('dragging:view').getContainer(),
       target: this.view.getContainer(),
       options: {
-        at: newIndex
+        at: this.getSortedElementNewIndex(ui.item)
       }
     });
   },
@@ -19503,7 +19493,7 @@ SortableBehavior = Marionette.Behavior.extend({
     this.$el.removeClass('elementor-dragging-on-child');
   },
   onSortReceive: function onSortReceive(event, ui) {
-    this.receiveSort(event, ui, this.getSortedElementNewIndex(ui.item));
+    this.receiveSort(event, ui);
   },
   onSortUpdate: function onSortUpdate(event, ui) {
     event.stopPropagation();
@@ -19512,7 +19502,7 @@ SortableBehavior = Marionette.Behavior.extend({
       return;
     }
 
-    this.updateSort(ui, this.getSortedElementNewIndex(ui.item));
+    this.updateSort(ui);
   },
   onAddChild: function onAddChild(view) {
     view.$el.attr('data-model-cid', view.model.cid);
@@ -21825,7 +21815,6 @@ var _default = /*#__PURE__*/function (_BaseRegion) {
       manager: (0, _assertThisInitialized2.default)(_this)
     }));
     _this.isDocked = false;
-    _this.storage.size.width = _this.storage.size.width || _this.$el.css('width');
     _this.indicators = {
       customPosition: {
         title: __('Custom Positioning', 'elementor'),
@@ -26329,7 +26318,7 @@ exports.default = Heartbeat;
   \************************************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: module, __webpack_require__ */
-/*! CommonJS bailout: module.exports is used directly at 30:0-14 */
+/*! CommonJS bailout: module.exports is used directly at 27:0-14 */
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
@@ -26337,8 +26326,6 @@ exports.default = Heartbeat;
 
 
 var _interopRequireDefault = __webpack_require__(/*! @babel/runtime-corejs2/helpers/interopRequireDefault */ "../node_modules/@babel/runtime-corejs2/helpers/interopRequireDefault.js");
-
-__webpack_require__(/*! core-js/modules/es7.array.includes */ "../node_modules/core-js/modules/es7.array.includes.js");
 
 __webpack_require__(/*! core-js/modules/es6.number.constructor */ "../node_modules/core-js/modules/es6.number.constructor.js");
 
@@ -26362,7 +26349,6 @@ var _colorPicker = _interopRequireDefault(__webpack_require__(/*! ./color-picker
 
 var _helper = _interopRequireDefault(__webpack_require__(/*! elementor-editor/document/helper */ "../assets/dev/js/editor/document/helper.js"));
 
-var allowedHTMLWrapperTags = ['article', 'aside', 'div', 'footer', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header', 'main', 'nav', 'p', 'section', 'span'];
 module.exports = {
   document: _helper.default,
   _enqueuedFonts: {
@@ -26390,7 +26376,7 @@ module.exports = {
     }
 
     if (!$document.find(selector).length) {
-      $document.find('link').last().after(link);
+      $document.find('link:last').after(link);
     }
   },
   enqueuePreviewStylesheet: function enqueuePreviewStylesheet(url) {
@@ -26995,19 +26981,6 @@ module.exports = {
   },
   hasPro: function hasPro() {
     return !!window.elementorPro;
-  },
-
-  /**
-   * Function validateHTMLTag().
-   *
-   * Validate an HTML tag against a safe allowed list.
-   *
-   * @param {string} tag
-   *
-   * @returns {string}
-   */
-  validateHTMLTag: function validateHTMLTag(tag) {
-    return allowedHTMLWrapperTags.includes(tag.toLowerCase()) ? tag : 'div';
   }
 };
 
@@ -27233,7 +27206,7 @@ var _stringify = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-c
     };
 
     var onDragEnd = function onDragEnd(event) {
-      if ('function' === typeof settings.onDragEnd) {
+      if ($.isFunction(settings.onDragEnd)) {
         settings.onDragEnd.call(elementsCache.$element, event, self);
       }
     };
@@ -27248,7 +27221,7 @@ var _stringify = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-c
         event.originalEvent.dataTransfer.setData((0, _stringify.default)(dataContainer), true);
       }
 
-      if ('function' === typeof settings.onDragStart) {
+      if ($.isFunction(settings.onDragStart)) {
         settings.onDragStart.call(elementsCache.$element, event, self);
       }
     };
@@ -27406,7 +27379,7 @@ var _stringify = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-c
         }
       }
 
-      if ('function' === typeof settings.isDroppingAllowed) {
+      if ($.isFunction(settings.isDroppingAllowed)) {
         droppingAllowed = settings.isDroppingAllowed.call(currentElement, currentSide, event, self);
 
         if (!droppingAllowed) {
@@ -27444,7 +27417,7 @@ var _stringify = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-c
       elementsCache.$element.addClass(settings.hasDraggingOnChildClass);
       $(currentElement).addClass(settings.currentElementClass);
 
-      if ('function' === typeof settings.onDragEnter) {
+      if ($.isFunction(settings.onDragEnter)) {
         settings.onDragEnter.call(currentElement, currentSide, event, self);
       }
     };
@@ -27469,7 +27442,7 @@ var _stringify = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-c
         insertPlaceholder();
       }
 
-      if ('function' === typeof settings.onDragging) {
+      if ($.isFunction(settings.onDragging)) {
         settings.onDragging.call(this, currentSide, event, self);
       }
     };
@@ -27494,7 +27467,7 @@ var _stringify = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-c
 
       event.preventDefault();
 
-      if ('function' === typeof settings.onDropping) {
+      if ($.isFunction(settings.onDropping)) {
         settings.onDropping.call(this, currentSide, event, self);
       }
     };
@@ -27516,7 +27489,7 @@ var _stringify = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-c
 
       elementsCache.$element.removeClass(settings.hasDraggingOnChildClass);
 
-      if ('function' === typeof settings.onDragLeave) {
+      if ($.isFunction(settings.onDragLeave)) {
         settings.onDragLeave.call(currentElement, event, self);
       }
 

@@ -1,4 +1,4 @@
-/*! elementor - v3.1.4 - 10-03-2021 */
+/*! elementor - v3.1.0 - 24-01-2021 */
 .dialog-widget-content {
   background-color: #fff;
   position: absolute;
@@ -484,9 +484,8 @@
 .tipsy-inner {
   background-color: #000;
   color: #FFF;
-  font-weight: 500;
   max-width: 200px;
-  padding: 5px 12px;
+  padding: 6px 12px 6px;
   text-align: center;
   -webkit-border-radius: 3px;
           border-radius: 3px;

@@ -653,9 +653,9 @@ class Widget_Icon_Box extends Widget_Base {
 			</div>
 			<?php endif; ?>
 			<div class="elementor-icon-box-content">
-				<<?php echo Utils::validate_html_tag( $settings['title_size'] ); ?> class="elementor-icon-box-title">
+				<<?php echo $settings['title_size']; ?> class="elementor-icon-box-title">
 					<<?php echo implode( ' ', [ $icon_tag, $link_attributes ] ); ?><?php echo $this->get_render_attribute_string( 'title_text' ); ?>><?php echo $settings['title_text']; ?></<?php echo $icon_tag; ?>>
-				</<?php echo Utils::validate_html_tag( $settings['title_size'] ); ?>>
+				</<?php echo $settings['title_size']; ?>>
 				<?php if ( ! Utils::is_empty( $settings['description_text'] ) ) : ?>
 				<p <?php echo $this->get_render_attribute_string( 'description_text' ); ?>><?php echo $settings['description_text']; ?></p>
 				<?php endif; ?>
@@ -698,10 +698,9 @@ class Widget_Icon_Box extends Widget_Base {
 			</div>
 			<# } #>
 			<div class="elementor-icon-box-content">
-				<# var titleSizeTag = elementor.helpers.validateHTMLTag( settings.title_size ); #>
-				<{{{ titleSizeTag }}} class="elementor-icon-box-title">
+				<{{{ settings.title_size }}} class="elementor-icon-box-title">
 					<{{{ iconTag + ' ' + link }}} {{{ view.getRenderAttributeString( 'title_text' ) }}}>{{{ settings.title_text }}}</{{{ iconTag }}}>
-				</{{{ titleSizeTag }}}>
+				</{{{ settings.title_size }}}>
 				<# if ( settings.description_text ) { #>
 				<p {{{ view.getRenderAttributeString( 'description_text' ) }}}>{{{ settings.description_text }}}</p>
 				<# } #>
