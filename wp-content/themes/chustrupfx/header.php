@@ -8,7 +8,6 @@
     <meta name="description" content="Victor Inácio é um desenvolvedor web. Habilidades em HTML, CSS, JS, React." />
     <meta name="keywords" content="desenvolvimento web, HTML, CSS, JS, freelancer, React, portfolio" />
     <meta name="author" content="Victor Inácio" />
-    <title><?php wp_title() ?></title>
 </head>
 <body>
 
